@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DealFlow Pro</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg: #081120;
+      --bg-2: #0f172a;
+      --card: rgba(255,255,255,0.06);
+      --card-border: rgba(255,255,255,0.12);
+      --text: #f8fafc;
+      --muted: #cbd5e1;
+      --green: #22c55e;
+      --blue: #3b82f6;
+      --gold: #f59e0b;
+      --red: #ef4444;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(59,130,246,.20), transparent 30%),
+        radial-gradient(circle at top right, rgba(34,197,94,.15), transparent 30%),
+        linear-gradient(180deg, #06101d 0%, #0b1323 45%, #0f172a 100%);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .container {
+      width: min(1150px, 92%);
+      margin: 0 auto;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(10px);
+      background: rgba(6, 16, 29, 0.75);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 0;
+      gap: 16px;
+    }
+
+    .brand {
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+    }
+
+    .brand span {
+      color: var(--green);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .nav-links a {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .btn {
+      display: inline-block;
+      border: none;
+      border-radius: 12px;
+      padding: 13px 18px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.2s ease;
+      text-align: center;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      opacity: 0.95;
+    }
+
+    .btn-green {
+      background: linear-gradient(135deg, #22c55e, #16a34a);
+      color: white;
+    }
+
+    .btn-blue {
+      background: linear-gradient(135deg, #3b82f6, #2563eb);
+      color: white;
+    }
+
+    .btn-dark {
+      background: rgba(255,255,255,0.08);
+      color: white;
+      border: 1px solid rgba(255,255,255,0.12);
+    }
+
+    .btn-gold {
+      background: linear-gradient(135deg, #f59e0b, #d97706);
+      color: white;
+    }
+
+    .hero {
+      padding: 72px 0 48px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 24px;
+      align-items: center;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(34,197,94,0.12);
+      border: 1px solid rgba(34,197,94,0.25);
+      color: #bbf7d0;
+      font-size: 13px;
+      margin-bottom: 16px;
+      font-weight: 700;
+    }
+
+    .hero h1 {
+      font-size: clamp(38px, 6vw, 68px);
+      line-height: 1.02;
+      margin-bottom: 18px;
+      font-weight: 900;
+      letter-spacing: -1px;
+    }
+
+    .hero p {
+      color: var(--muted);
+      font-size: 18px;
+      line-height: 1.65;
+      max-width: 700px;
+      margin-bottom: 24px;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 22px;
+    }
+
+    .hero-points {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      color: #dbeafe;
+      font-size: 14px;
+    }
+
+    .hero-points span {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.08);
+      padding: 10px 12px;
+      border-radius: 999px;
+    }
+
+    .hero-card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.04));
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 22px;
+      padding: 22px;
+      box-shadow: 0 24px 60px rgba(0,0,0,0.28);
+    }
+
+    .hero-card h3 {
+      margin-bottom: 14px;
+      font-size: 22px;
+    }
+
+    .stat-box {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .mini-card {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px;
+      padding: 16px;
+    }
+
+    .mini-card h4 {
+      font-size: 14px;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    .mini-card strong {
+      font-size: 24px;
+    }
+
+    .section {
+      padding: 34px 0;
+    }
+
+    .section-title {
+      font-size: 34px;
+      margin-bottom: 10px;
+      font-weight: 900;
+    }
+
+    .section-sub {
+      color: var(--muted);
+      margin-bottom: 24px;
+      line-height: 1.65;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: 22px;
+      padding: 22px;
+      box-shadow: 0 18px 40px rgba(0,0,0,0.18);
+    }
+
+    .card h3 {
+      margin-bottom: 12px;
+      font-size: 22px;
+    }
+
+    .card p {
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .list {
+      margin-top: 14px;
+      padding-left: 18px;
+      color: var(--muted);
+      line-height: 1.8;
+    }
+
+    .pricing-wrap {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    .pricing-card {
+      position: relative;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 24px;
+      padding: 24px;
+      box-shadow: 0 22px 48px rgba(0,0,0,0.20);
+    }
+
+    .pricing-card.popular {
+      border: 1px solid rgba(34,197,94,0.45);
+      transform: scale(1.02);
+      box-shadow: 0 28px 60px rgba(34,197,94,0.10);
+    }
+
+    .tag {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background: rgba(34,197,94,0.14);
+      color: #bbf7d0;
+      border: 1px solid rgba(34,197,94,0.28);
+      font-size: 12px;
+      font-weight: 800;
+      padding: 8px 10px;
+      border-radius: 999px;
+    }
+
+    .plan {
+      color: #e2e8f0;
+      font-size: 18px;
+      margin-bottom: 8px;
+      font-weight: 700;
+    }
+
+    .price {
+      font-size: 42px;
+      font-weight: 900;
+      margin: 4px 0 6px;
+    }
+
+    .price small {
+      font-size: 16px;
+      color: var(--muted);
+    }
+
+    .small {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .money-box {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .money-item {
+      border-radius: 20px;
+      padding: 22px;
+      background: linear-gradient(180deg, rgba(245,158,11,.10), rgba(255,255,255,.04));
+      border: 1px solid rgba(245,158,11,.22);
+    }
+
+    .money-item h3 {
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+
+    .form-wrap {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    input, textarea, select {
+      width: 100%;
+      padding: 14px 14px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.05);
+      color: white;
+      margin-top: 12px;
+      font-size: 15px;
+      outline: none;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 120px;
+    }
+
+    .results, .notice {
+      margin-top: 14px;
+      padding: 14px;
+      border-radius: 14px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.10);
+      color: #e2e8f0;
+      line-height: 1.65;
+    }
+
+    .footer {
+      padding: 40px 0 60px;
+      text-align: center;
+      color: var(--muted);
+    }
+
+    .highlight {
+      color: #86efac;
+    }
+
+    @media (max-width: 980px) {
+      .hero-grid,
+      .grid-3,
+      .grid-2,
+      .pricing-wrap,
+      .money-box,
+      .form-wrap {
+        grid-template-columns: 1fr;
+      }
+
+      .pricing-card.popular {
+        transform: none;
+      }
+
+      .nav {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .nav-links {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="container nav">
+      <div class="brand">DealFlow <span>Pro</span></div>
+      <div class="nav-links">
+        <a href="#features">Features</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#money">How You Get Paid</a>
+        <a href="#contact">Get Started</a>
+      </div>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="container hero-grid">
+      <div>
+        <div class="badge">Real Estate Deal Software • Built to Close Faster</div>
+        <h1>Find Deals. Track Leads. Lock Buyers. Get Paid Faster.</h1>
+        <p>
+          DealFlow Pro helps wholesalers, investors, and flippers analyze deals,
+          organize leads, promote properties, and monetize premium access with
+          monthly subscriptions and free trials.
+        </p>
+
+        <div class="hero-actions">
+          <a class="btn btn-green" href="#pricing">Start Free Trial</a>
+          <a class="btn btn-dark" href="#money">See How You Make Money</a>
+        </div>
+
+        <div class="hero-points">
+          <span>7-Day Free Trial</span>
+          <span>Monthly Membership</span>
+          <span>Lead Capture</span>
+          <span>Buyer List Growth</span>
+        </div>
+      </div>
+
+      <div class="hero-card">
+        <h3>Quick Deal Snapshot</h3>
+        <p class="small">Use this to grab attention and show value fast.</p>
+
+        <div class="stat-box">
+          <div class="mini-card">
+            <h4>Avg. Investor Spread</h4>
+            <strong>$12K+</strong>
+          </div>
+          <div class="mini-card">
+            <h4>Lead Follow-Up Speed</h4>
+            <strong>Fast</strong>
+          </div>
+          <div class="mini-card">
+            <h4>Monthly Plan</h4>
+            <strong>$19</strong>
+          </div>
+          <div class="mini-card">
+            <h4>Free Trial</h4>
+            <strong>7 Days</strong>
+          </div>
+        </div>
+
+        <div class="results" style="margin-top:18px;">
+          <strong>Best for:</strong> wholesalers, flippers, buy-and-hold investors, land buyers, and JV deal hunters.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="features">
+    <div class="container">
+      <h2 class="section-title">Why This Site Feels More Valuable</h2>
+      <p class="section-sub">
+        Instead of a plain calculator page, this version sells the value of the app,
+        builds trust, and pushes people toward trial, subscription, or lead capture.
+      </p>
+
+      <div class="grid-3">
+        <div class="card">
+          <h3>Deal Analyzer</h3>
+          <p>Run ARV, MAO, fee spread, and quick deal checks so users can move with confidence.</p>
+        </div>
+        <div class="card">
+          <h3>Buyer & Seller Leads</h3>
+          <p>Capture contact info, property details, and serious lead activity in one place.</p>
+        </div>
+        <div class="card">
+          <h3>Premium Investor Tools</h3>
+          <p>Lock advanced tools behind subscription so your site can generate recurring revenue.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container grid-2">
+      <div class="card">
+        <h3>Quick MAO / Offer Calculator</h3>
+        <p class="small">Formula: (ARV × 70%) - Repairs - Fee</p>
+
+        <input type="number" id="arv" placeholder="ARV ($)">
+        <input type="number" id="repairs" placeholder="Repairs ($)">
+        <input type="number" id="fee" placeholder="Wholesale Fee ($)">
+        <input type="number" id="offer" placeholder="Offer / Contract Price ($)">
+        <button class="btn btn-blue" onclick="runNumbers()">Run Numbers</button>
+
+        <div class="results" id="calcResult">Your deal results will show here.</div>
+      </div>
+
+      <div class="card">
+        <h3>Premium Feature Access</h3>
+        <p>
+          This area simulates locked premium access. Once you connect Stripe later,
+          paid users can unlock premium tools for real.
+        </p>
+
+        <ul class="list">
+          <li>Advanced deal analyzer</li>
+          <li>Lead export features</li>
+          <li>Premium templates</li>
+          <li>Priority support</li>
+        </ul>
+
+        <button class="btn btn-gold" onclick="demoPremium()">Preview Premium Access</button>
+        <div class="notice" id="premiumStatus">Premium preview status will show here.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="pricing">
+    <div class="container">
+      <h2 class="section-title">Simple Pricing That Feels Real</h2>
+      <p class="section-sub">
+        These plans are designed to look like a real SaaS. Replace the payment links
+        later with your Stripe payment links or checkout URLs.
+      </p>
+
+      <div class="pricing-wrap">
+        <div class="pricing-card">
+          <div class="plan">Starter</div>
+          <div class="price">$0 <small>/free</small></div>
+          <p class="small">Basic tools for users who want to check out the platform first.</p>
+          <ul class="list">
+            <li>Basic calculator</li>
+            <li>Basic lead capture</li>
+            <li>Limited tools</li>
+          </ul>
+          <button class="btn btn-dark" onclick="fakePlan('Starter Plan Activated')">Use Free Plan</button>
+        </div>
+
+        <div class="pricing-card popular">
+          <div class="tag">Most Popular</div>
+          <div class="plan">Pro Monthly</div>
+          <div class="price">$19 <small>/month</small></div>
+          <p class="small">For investors who want stronger tools, faster deal analysis, and premium access.</p>
+          <ul class="list">
+            <li>7-day free trial</li>
+            <li>Premium tools</li>
+            <li>Lead management</li>
+            <li>Priority access</li>
+          </ul>
+          <button class="btn btn-green" onclick="goToStripeMonthly()">Start Free Trial</button>
+          <div class="notice" id="payNotice1" style="margin-top:12px;">Add your Stripe monthly checkout link in the code.</div>
+        </div>
+
+        <div class="pricing-card">
+          <div class="plan">VIP Investor</div>
+          <div class="price">$49 <small>/month</small></div>
+          <p class="small">Higher-tier access for serious users who want more support and deal flow perks.</p>
+          <ul class="list">
+            <li>Everything in Pro</li>
+            <li>Priority help</li>
+            <li>VIP resources</li>
+            <li>Exclusive deal tools</li>
+          </ul>
+          <button class="btn btn-blue" onclick="goToStripeVIP()">Join VIP</button>
+          <div class="notice" id="payNotice2" style="margin-top:12px;">Add your Stripe VIP checkout link in the code.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="money">
+    <div class="container">
+      <h2 class="section-title">Ways You Can Get Paid Using This Site</h2>
+      <p class="section-sub">
+        This is where your site starts acting like a business, not just a page.
+      </p>
+
+      <div class="money-box">
+        <div class="money-item">
+          <h3>1. Monthly Subscriptions</h3>
+          <p class="small">Charge users every month for premium investor tools, templates, calculators, and lead management.</p>
+        </div>
+
+        <div class="money-item">
+          <h3>2. Buyer Lead Capture</h3>
+          <p class="small">Use the site to collect buyer info, build a stronger cash buyer list, and close more real estate deals.</p>
+        </div>
+
+        <div class="money-item">
+          <h3>3. Seller Leads / JV Opportunities</h3>
+          <p class="small">Let users submit properties or requests through your platform so the site helps feed your actual deal pipeline.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="contact">
+    <div class="container form-wrap">
+      <div class="card">
+        <h3>Join the Buyers List</h3>
+        <p class="small">Collect users who want deals sent to them.</p>
+
+        <input type="text" id="buyerName" placeholder="Full Name">
+        <input type="text" id="buyerEmail" placeholder="Email or Phone">
+        <input type="text" id="buyerArea" placeholder="Preferred Market / Area">
+        <textarea id="buyerNotes" placeholder="What kind of deals are you looking for?"></textarea>
+        <button class="btn btn-green" onclick="submitBuyer()">Join Buyers List</button>
+
+        <div class="results" id="buyerResult">Buyer form status will show here.</div>
+      </div>
+
+      <div class="card">
+        <h3>Submit a Property / Request Help</h3>
+        <p class="small">Use this to attract sellers, JV partners, or investors needing help.</p>
+
+        <input type="text" id="sellerName" placeholder="Name">
+        <input type="text" id="sellerContact" placeholder="Email or Phone">
+        <input type="text" id="propertyAddress" placeholder="Property Address">
+        <textarea id="propertyNotes" placeholder="Tell us about the property or what help you need"></textarea>
+        <button class="btn btn-blue" onclick="submitProperty()">Submit Property</button>
+
+        <div class="results" id="propertyResult">Submission status will show here.</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="footer">
+    <div class="container">
+      <p>DealFlow Pro • Built to help investors move faster and monetize smarter.</p>
+      <p style="margin-top:8px;">
+        <span class="highlight">Important:</span> To collect real monthly payments, replace the button links in the code with your Stripe checkout URLs.
+      </p>
+    </div>
+  </div>
+
+  <script>
+    function runNumbers() {
+      const arv = parseFloat(document.getElementById('arv').value) || 0;
+      const repairs = parseFloat(document.getElementById('repairs').value) || 0;
+      const fee = parseFloat(document.getElementById('fee').value) || 0;
+      const offer = parseFloat(document.getElementById('offer').value) || 0;
+
+      const mao = (arv * 0.70) - repairs - fee;
+      const spread = mao - offer;
+
+      let status = "Needs review";
+      if (offer > 0 && offer <= mao) {
+        status = "Strong deal range";
+      } else if (offer > mao) {
+        status = "Offer is high — negotiate lower";
+      }
+
+      document.getElementById('calcResult').innerHTML = `
+        <strong>MAO:</strong> $${mao.toLocaleString()}<br>
+        <strong>Offer:</strong> $${offer.toLocaleString()}<br>
+        <strong>Spread:</strong> $${spread.toLocaleString()}<br>
+        <strong>Status:</strong> ${status}
+      `;
+    }
+
+    function demoPremium() {
+      document.getElementById('premiumStatus').innerHTML =
+        "<strong>Premium Preview Enabled:</strong> This is where paid users would unlock advanced tools after subscription.";
+    }
+
+    function fakePlan(message) {
+      alert(message);
+    }
+
+    function goToStripeMonthly() {
+      const stripeMonthlyLink = "PASTE_YOUR_STRIPE_MONTHLY_LINK_HERE";
+      if (stripeMonthlyLink === "PASTE_YOUR_STRIPE_MONTHLY_LINK_HERE") {
+        document.getElementById('payNotice1').innerHTML =
+          "<strong>Next step:</strong> Paste your Stripe monthly payment link here so users can start a free trial and subscribe.";
+      } else {
+        window.location.href = stripeMonthlyLink;
+      }
+    }
+
+    function goToStripeVIP() {
+      const stripeVipLink = "PASTE_YOUR_STRIPE_VIP_LINK_HERE";
+      if (stripeVipLink === "PASTE_YOUR_STRIPE_VIP_LINK_HERE") {
+        document.getElementById('payNotice2').innerHTML =
+          "<strong>Next step:</strong> Paste your Stripe VIP payment link here to activate this plan.";
+      } else {
+        window.location.href = stripeVipLink;
+      }
+    }
+
+    function submitBuyer() {
+      const name = document.getElementById('buyerName').value;
+      const contact = document.getElementById('buyerEmail').value;
+      const area = document.getElementById('buyerArea').value;
+      const notes = document.getElementById('buyerNotes').value;
+
+      document.getElementById('buyerResult').innerHTML = `
+        <strong>Buyer lead captured.</strong><br>
+        Name: ${name}<br>
+        Contact: ${contact}<br>
+        Area: ${area}<br>
+        Notes: ${notes}<br><br>
+        <span class="highlight">Next move:</span> connect this form to email, Google Sheets, Airtable, or a backend so you can store real leads.
+      `;
+    }
+
+    function submitProperty() {
+      const name = document.getElementById('sellerName').value;
+      const contact = document.getElementById('sellerContact').value;
+      const address = document.getElementById('propertyAddress').value;
+      const notes = document.getElementById('propertyNotes').value;
+
+      document.getElementById('propertyResult').innerHTML = `
+        <strong>Property request captured.</strong><br>
+        Name: ${name}<br>
+        Contact: ${contact}<br>
+        Address: ${address}<br>
+        Notes: ${notes}<br><br>
+        <span class="highlight">Next move:</span> connect this to email or lead storage so you receive real submissions.
+      `;
+    }
+  </script>
+</body>
+</html>
