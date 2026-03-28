@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>DealFlow Real Estate</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: #0f172a;
+      color: white;
+    }
+
+    header {
+      background: #020617;
+      padding: 15px;
+      text-align: center;
+      font-size: 22px;
+      font-weight: bold;
+    }
+
+    .container {
+      padding: 15px;
+    }
+
+    .card {
+      background: #1e293b;
+      padding: 15px;
+      border-radius: 10px;
+      margin-bottom: 15px;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 8px;
+      border-radius: 6px;
+      border: none;
+    }
+
+    button {
+      background: #22c55e;
+      border: none;
+      padding: 10px;
+      width: 100%;
+      color: white;
+      border-radius: 8px;
+      margin-top: 10px;
+      cursor: pointer;
+    }
+
+    .nav {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      display: flex;
+      justify-content: space-around;
+      background: #020617;
+      padding: 10px;
+    }
+
+    .nav button {
+      background: none;
+      font-size: 14px;
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>DealFlow Real Estate</header>
+
+<div class="container">
+
+  <!-- HOME -->
+  <div id="home">
+    <div class="card">
+      <h3>Welcome</h3>
+      <p>Analyze deals, manage leads, and find profits fast.</p>
+    </div>
+  </div>
+
+  <!-- ANALYZER -->
+  <div id="analyzer" class="hidden">
+    <div class="card">
+      <h3>Deal Analyzer</h3>
+      <input id="arv" placeholder="ARV">
+      <input id="repair" placeholder="Repairs">
+      <input id="fee" placeholder="Wholesale Fee">
+      <input id="offer" placeholder="Offer Price">
+      <button onclick="analyze()">Analyze</button>
+      <p id="result"></p>
+    </div>
+  </div>
+
+  <!-- LEADS -->
+  <div id="leads" class="hidden">
+    <div class="card">
+      <h3>Seller Lead</h3>
+      <input placeholder="Name">
+      <input placeholder="Address">
+      <input placeholder="Phone">
+      <textarea placeholder="Notes"></textarea>
+      <button>Save Lead</button>
+    </div>
+  </div>
+
+  <!-- BUYERS -->
+  <div id="buyers" class="hidden">
+    <div class="card">
+      <h3>Buyer</h3>
+      <input placeholder="Name">
+      <input placeholder="Contact">
+      <input placeholder="Area">
+      <button>Save Buyer</button>
+    </div>
+  </div>
+
+</div>
+
+<!-- NAV -->
+<div class="nav">
+  <button onclick="show('home')">Home</button>
+  <button onclick="show('analyzer')">Analyzer</button>
+  <button onclick="show('leads')">Leads</button>
+  <button onclick="show('buyers')">Buyers</button>
+</div>
+
+<script>
+function show(page) {
+  document.getElementById('home').classList.add('hidden');
+  document.getElementById('analyzer').classList.add('hidden');
+  document.getElementById('leads').classList.add('hidden');
+  document.getElementById('buyers').classList.add('hidden');
+
+  document.getElementById(page).classList.remove('hidden');
+}
+
+function analyze() {
+  let arv = document.getElementById('arv').value;
+  let repair = document.getElementById('repair').value;
+  let fee = document.getElementById('fee').value;
+  let offer = document.getElementById('offer').value;
+
+  let mao = (arv * 0.7) - repair - fee;
+  let result = offer <= mao ? "Good Deal" : "Too High";
+
+  document.getElementById('result').innerText =
+    "MAO: $" + mao + " | " + result;
+}
+</script>
+
+</body>
+</html>
