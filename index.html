@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DealFlow Pro</title>
+
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background: #0f172a;
+  color: #fff;
+  text-align: center;
+  padding: 30px;
+}
+
+.container {
+  max-width: 400px;
+  margin: auto;
+  background: #1e293b;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.5);
+}
+
+h1 {
+  margin-bottom: 10px;
+}
+
+input {
+  width: 90%;
+  padding: 10px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 6px;
+}
+
+button {
+  width: 95%;
+  padding: 12px;
+  background: #22c55e;
+  border: none;
+  color: white;
+  font-size: 16px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #16a34a;
+}
+
+.result {
+  margin-top: 15px;
+  font-size: 18px;
+}
+
+.sub-box {
+  margin-top: 25px;
+  padding: 15px;
+  background: #020617;
+  border-radius: 10px;
+}
+
+.price {
+  font-size: 24px;
+  color: #22c55e;
+}
+</style>
+</head>
+
+<body>
+
+<h1>DealFlow Pro</h1>
+<p>Real Estate Deal Analyzer</p>
+
+<div class="container">
+
+  <h3>Calculate MAO</h3>
+
+  <input id="arv" placeholder="After Repair Value (ARV)">
+  <input id="repairs" placeholder="Estimated Repairs">
+
+  <button onclick="calculate()">Calculate Deal</button>
+
+  <div class="result" id="result"></div>
+
+  <div class="sub-box">
+    <h3>Upgrade Access</h3>
+    <p>Unlock full deal tools & buyer tracking</p>
+    <p class="price">$19/month</p>
+    <button onclick="subscribe()">Start Free Trial</button>
+  </div>
+
+</div>
+
+<script>
+function calculate() {
+  let arv = parseFloat(document.getElementById("arv").value);
+  let repairs = parseFloat(document.getElementById("repairs").value);
+
+  if (!arv || !repairs) {
+    document.getElementById("result").innerText = "Enter valid numbers";
+    return;
+  }
+
+  let mao = (arv * 0.7) - repairs;
+
+  document.getElementById("result").innerText = "Max Offer (MAO): $" + mao.toFixed(0);
+}
+
+function subscribe() {
+  alert("Subscription feature coming soon (Stripe setup next)");
+}
+</script>
+
+</body>
+</html>
